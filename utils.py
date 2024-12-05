@@ -47,6 +47,8 @@ class Meter:
     def reset(self):
         self.values = []
 
+
+
 class MetricsManager:
     def __init__(self):
         self.meters = defaultdict(Meter)
@@ -57,3 +59,34 @@ class MetricsManager:
     def reset(self):
         for meter in self.meters.values():
             meter.reset()
+
+
+
+
+
+class AverageMeter(object):
+    """Computes and stores the average and current/max/min value"""
+    def __init__(self):
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+        self.max = -1e10
+        self.min = 1e10
+        self.reset()
+
+    def reset(self):
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+        self.max = -1e10
+        self.min = 1e10
+
+    def update(self, val, n=1):
+        self.max = max(val, self.max)
+        self.min = min(val, self.min)
+        self.val = val
+        self.sum += val * n
+        self.count += n
+        self.avg = self.sum / self.count
