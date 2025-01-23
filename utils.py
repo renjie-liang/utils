@@ -2,6 +2,31 @@ import time
 import logging
 import os
 from collections import defaultdict
+import json
+
+def load_jsonl(filename):
+    with open(filename, "r") as f:
+        return [json.loads(l.strip("\n")) for l in f.readlines()]
+
+
+def save_jsonl(data, filename):
+    """data is a list"""
+    with open(filename, "w") as f:
+        f.write("\n".join([json.dumps(e) for e in data]))
+
+
+
+def load_json(filename):
+    with open(filename, "r") as f:
+        return json.load(f)
+
+
+def save_json(data, filename, save_pretty=True, sort_keys=False):
+    with open(filename, "w") as f:
+        if save_pretty:
+            f.write(json.dumps(data, indent=4, sort_keys=sort_keys))
+        else:
+            json.dump(data, f)
 
 
 def get_logger(dir, tile):
