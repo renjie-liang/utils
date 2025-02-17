@@ -29,13 +29,13 @@ def save_json(data, filename, save_pretty=True, sort_keys=False):
             json.dump(data, f)
 
 
-def get_logger(dir, tile):
+def get_logger(dir, tile, level='INFO'):
     os.makedirs(dir, exist_ok=True)
     log_file = time.strftime("%Y%m%d_%H%M%S", time.localtime())
     log_file = os.path.join(dir, "{}_{}.log".format(log_file, tile))
 
     logger = logging.getLogger()
-    logger.setLevel('DEBUG')
+    logger.setLevel(level)
     BASIC_FORMAT = "%(levelname)s:%(message)s"
     # DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
     formatter = logging.Formatter(BASIC_FORMAT)
@@ -44,11 +44,13 @@ def get_logger(dir, tile):
 
     fhlr = logging.FileHandler(log_file) 
     fhlr.setFormatter(formatter)
-    fhlr.setLevel('INFO') 
+    fhlr.setLevel(level) 
 
     logger.addHandler(chlr)
     logger.addHandler(fhlr)
     return logger
+
+
 
 
 
